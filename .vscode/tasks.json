@@ -1,0 +1,30 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build (Debug)",
+      "group": "build",
+      "command": "cargo",
+      "args": [
+        "build"
+      ],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "Build (Release)",
+      "group": "build",
+      "command": "cargo",
+      "args": [
+        "build",
+        "--release"
+      ],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always"
+      }
+    }
+  ]
+}
