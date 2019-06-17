@@ -9,7 +9,8 @@ pub struct CommandExecutor {
 
 #[derive(Debug)]
 pub struct ExecutionRecord {
-    pub name: String,
+    pub group_name: String,
+    pub command_name: String,
     pub execution_time: i64,
 }
 
@@ -66,18 +67,9 @@ impl CommandExecutor {
             let command = &task.command;
             let result = self.measure_execution_time(&command[0], &command[1..]);
             if let Some(execution_time) = result {
-                let name = self.determine_command_name(group_name, command[0].clone());
-                self.store_execution_time(&name, execution_time);
+                self.store_execution_time(group_name, &command[0], execution_time);
             }
         }
-    }
-
-    fn determine_command_name(&self, group_name: &str, command: String) -> String {
-        if group_name == "" {
-            return command
-        }
-
-        format!("{}/{}", group_name, command)
     }
 
     fn measure_execution_time(&self, command: &str, arguments: &[String]) -> Option<i64> {
@@ -88,9 +80,10 @@ impl CommandExecutor {
         start.to(end).num_nanoseconds()
     }
 
-    fn store_execution_time(&mut self, name: &str, execution_time: i64) {
+    fn store_execution_time(&mut self, group_name: &str, command_name: &str, execution_time: i64) {
         self.execution_times.push(ExecutionRecord {
-            name: name.to_string(),
+            group_name: group_name.to_string(),
+            command_name: command_name.to_string(),
             execution_time: execution_time,
         });
     }

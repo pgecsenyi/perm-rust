@@ -111,7 +111,7 @@ fn export_result(
     let mut wtr = csv::Writer::from_path(output_path)?;
 
     for record in execution_times {
-        wtr.write_record(&[record.name.clone(), record.execution_time.to_string()])?;
+        wtr.write_record(&[record.group_name.clone(), record.command_name.clone(), record.execution_time.to_string()])?;
     }
 
     wtr.flush()?;
