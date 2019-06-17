@@ -1,9 +1,5 @@
-extern crate csv;
-extern crate serde;
 #[macro_use]
 extern crate serde_derive;
-extern crate serde_json;
-extern crate time;
 
 mod command_executor;
 mod config;
@@ -20,15 +16,25 @@ use command_executor::ExecutionRecord;
 use config::Config;
 
 #[derive(StructOpt)]
-struct Cli {
+struct CommandLineArguments {
+    #[structopt(short = "c", long = "config", help = "The path of the configuration file.")]
     config_path: String,
+
+    #[structopt(short = "o", long = "output", help = "The path of the output file.")]
     output_path: String,
+
+    #[structopt(short = "d", long = "display_output", help = "Display the output of the executed command.")]
     display_output: bool,
+
+    #[structopt(
+        short = "g",
+        long = "generate_sample_config",
+        help = "Generate a sample configuration file at `config_path`.")]
     generate_sample_config: bool,
 }
 
 fn main() {
-    let args = Cli::from_args();
+    let args = CommandLineArguments::from_args();
     if args.generate_sample_config {
         generate_sample_config(&args.config_path);
         println!("Configuration generates successfully to {}.", &args.config_path);
