@@ -1,5 +1,5 @@
 use super::config;
-use std::process::Command;
+use std::process::{Command, Stdio};
 use time::PreciseTime;
 
 pub struct CommandExecutor {
@@ -49,22 +49,26 @@ impl CommandExecutor {
     fn execute_command(&self, command: &str, arguments: &[String]) {
         let mut process = Command::new(command);
         process.args(arguments);
-        let output = process.output().expect("Failed to execute command");
 
-        let result = String::from_utf8(output.stdout);
-        match result {
-            Ok(value) => {
-                if self.display_output {
-                    println!("{}", value);
-                }
-            },
-            Err(message) => panic!("{:?}", message),
+        if self.display_output {
+            let mut cmd = process
+                .stdout(Stdio::inherit())
+                .stderr(Stdio::inherit())
+                .spawn()
+                .expect("Failed to execute command.");
+            let status = cmd.wait();
+            println!("Command exited with status {:?}.", status);
+        } else {
+            process.output().expect("Failed to execute command.");
         }
     }
 
     fn execute_task_command(&mut self, group_name: &str, task: &config::Task) {
         for _i in 0..task.repetition_count {
             let command = &task.command;
+
+            println!("Executing {}...", group_name);
+
             let result = self.measure_execution_time(&command[0], &command[1..]);
             if let Some(execution_time) = result {
                 self.store_execution_time(group_name, &command[0], execution_time);
