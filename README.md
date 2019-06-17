@@ -9,7 +9,7 @@ Use cargo directly or _Visual Studio Code_ to build the application. This will p
 The program accepts the following command line arguments.
 
   * `config_path`: The path of the configuration file. This is a JSON file that describes the commands to execute and defines their order.
-  * `output_path`: The path of the output file.
+  * `output_path`: The path of the output file. The output will be in CSV format containing execution times in nanoseconds.
   * `display_output` (optional): a boolean value indicating whether the output of the executed command should be displayed.
   * `generate_sample_config` (optional): a boolean value indicating whether a sample configuration file should be generated at `config_path` instead of measuring performance.
 
@@ -25,7 +25,7 @@ _Visual Studio Code_ configuration files are also provided so it can be also use
 
 ### Environment
 
-  * Ubuntu 18.10
-  * Rust 1.32.0
-  * Visual Studio Code 1.30.2
-    * Extension: Rust (rls) 0.5.4
+  * Windows 10
+  * Rust 1.34.0
+  * Visual Studio Code 1.35.1
+    * Extension: Rust (rls) 0.6.1
