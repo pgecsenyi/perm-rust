@@ -82,7 +82,7 @@ dependencies = [
 
 [[package]]
 name = "perm"
-version = "0.3.1"
+version = "0.4.0"
 dependencies = [
  "csv 1.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.86 (registry+https://github.com/rust-lang/crates.io-index)",
